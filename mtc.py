@@ -21,9 +21,39 @@ except ImportError:
         return parser
 
 
-TMUX = os.environ.get('TMUX')
-ESC_BEGIN = '\033Ptmux;\033\033]' if TMUX else '\033]'
-ESC_END = '\a\033\\' if TMUX else '\a'
+@click.group()
+def cli():
+    pass
+
+
+@cli.command(help='Set a color theme')
+@click.argument('theme')
+@click.pass_context
+def set(ctx, theme):
+    try:
+        set_theme(theme)
+    except ConfigParser.NoSectionError:
+        click.echo('Don\'t know the theme {}.'.format(theme))
+        click.echo('These are the ones I know about:')
+        ctx.invoke(list)
+        sys.exit(1)
+
+
+@cli.command(help='List available color themes')
+def list():
+    parser = get_themes()
+    for section in sorted(parser.sections()):
+        click.echo(section)
+
+
+#
+# Escape sequences for the shell
+#
+# These are different if we're in tmux or not, so we need to check for that.
+#
+_TMUX = os.environ.get('TMUX')
+ESC_BEGIN = '\033Ptmux;\033\033]' if _TMUX else '\033]'
+ESC_END = '\a\033\\' if _TMUX else '\a'
 
 COLOR_NAME_CODES = dict(
     foregroundcolour='10;',
@@ -47,13 +77,6 @@ COLOR_NAME_CODES = dict(
     boldwhite='4;15;',
 )
 
-
-def set_color(name, val):
-    print('{begin}{color_name}{val}{end}'.format(
-        begin=ESC_BEGIN,
-        color_name=COLOR_NAME_CODES[name.lower()],
-        val=val,
-        end=ESC_END))
 
 BUILTIN_THEMES = '''
 [onedark]
@@ -226,32 +249,15 @@ def get_themes():
 def set_theme(theme):
     parser = get_themes()
     for k, v in parser.items(theme):
-        set_color(k, v)
+        _set_color(k, v)
 
 
-@click.group()
-def cli():
-    pass
-
-
-@cli.command()
-@click.argument('theme')
-@click.pass_context
-def set(ctx, theme):
-    try:
-        set_theme(theme)
-    except ConfigParser.NoSectionError:
-        click.echo('Don\'t know the theme {}.'.format(theme))
-        click.echo('These are the ones I know about:')
-        ctx.invoke(list)
-        sys.exit(1)
-
-
-@cli.command()
-def list():
-    parser = get_themes()
-    for section in sorted(parser.sections()):
-        click.echo(section)
+def _set_color(name, val):
+    print('{begin}{color_name}{val}{end}'.format(
+        begin=ESC_BEGIN,
+        color_name=COLOR_NAME_CODES[name.lower()],
+        val=val,
+        end=ESC_END))
 
 
 if __name__ == '__main__':

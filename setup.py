@@ -13,4 +13,10 @@ setup(
     install_requires=[
         'click>=6.6',
     ],
+
+    entry_points={
+        'console_scripts': [
+            'mtc = mtc:cli'
+        ]
+    }
 )
