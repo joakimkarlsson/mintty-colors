@@ -4,6 +4,8 @@ mintty-colors
 
 A command line tool for switching colors on the fly in cygwin's mintty terminal.
 
+.. image:: mtc.gif
+
 ************
 Installation
 ************
