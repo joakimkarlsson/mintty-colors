@@ -22,21 +22,21 @@ Usage
 List available themes
 =====================
 
-..code::
+.. code:: bash
 
     $ mtc list
 
 Change current theme
 ====================
 
-..code::
+.. code:: bash
 
     $ mtc set <theme>
 
 Configuration
 =============
 
-You can add your own themes or override the built-in themes by putting a file at `~/.mintty-colors`. This file is a config file where each section describes a mintty color scheme in the format used in mintty's `~/.minttyrc` file.
+You can add your own themes or override the built-in themes by putting a file at :code:`~/.mintty-colors`. This file is a config file where each section describes a mintty color scheme in the format used in mintty's :code:`~/.minttyrc` file.
 
 Example::
 
