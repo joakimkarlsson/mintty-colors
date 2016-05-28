@@ -133,12 +133,22 @@ def cli():
 
 @cli.command()
 @click.argument('theme')
-def set(theme):
+@click.pass_context
+def set(ctx, theme):
     try:
         set_theme(theme)
     except ConfigParser.NoSectionError:
         click.echo('Don\'t know the theme {}.'.format(theme))
+        click.echo('These are the ones I know about:')
+        ctx.invoke(list)
         sys.exit(1)
+
+
+@cli.command()
+def list():
+    parser = read_string(themes)
+    for section in parser.sections():
+        click.echo(section)
 
 
 if __name__ == '__main__':
