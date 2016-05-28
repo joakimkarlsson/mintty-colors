@@ -1,4 +1,5 @@
 import os
+import click
 
 try:
     import configparser
@@ -123,24 +124,17 @@ def set_theme(theme):
     for k, v in parser.items(theme):
         set_color(k, v)
 
-set_theme('material-light')
 
-# set_color('ForegroundColour', '#000000')
-# set_color('BackgroundColour', '#C0C0C0')
-# set_color('CursorColour', '#00FF00')
-# set_color('Black', '#000000')
-# set_color('Red', '#BF0000')
-# set_color('Green', '#00BF00')
-# set_color('Yellow', '#BFBF00')
-# set_color('Blue', '#0000BF')
-# set_color('Magenta', '#BF00BF')
-# set_color('Cyan', '#00BFBF')
-# set_color('White', '#BFBFBF')
-# set_color('BoldBlack', '#404040')
-# set_color('BoldRed', '#FF4040')
-# set_color('BoldGreen', '#40FF40')
-# set_color('BoldYellow', '#FFFF40')
-# set_color('BoldBlue', '#6060FF')
-# set_color('BoldMagenta', '#FF40FF')
-# set_color('BoldCyan', '#40FFFF')
-# set_color('BoldWhite', '#FFFFFF')
+@click.group()
+def cli():
+    pass
+
+
+@cli.command()
+@click.argument('theme')
+def set(theme):
+    set_theme(theme)
+
+
+if __name__ == '__main__':
+    cli()
