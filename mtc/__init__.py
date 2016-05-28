@@ -1,6 +1,7 @@
 import os
 import sys
 import click
+import os.path as op
 
 try:
     import configparser
@@ -54,7 +55,7 @@ def set_color(name, val):
         val=val,
         end=ESC_END))
 
-themes = '''
+BUILTIN_THEMES = '''
 [onedark]
 ForegroundColour=171,178,191
 BackgroundColour=30,33,39
@@ -120,8 +121,26 @@ BoldWhite=217,217,217
 '''
 
 
+_themes = None
+
+
+def get_themes():
+    global _themes
+
+    if not _themes:
+        parser = read_string(BUILTIN_THEMES)
+
+        user_defined_colors_path = op.expanduser('~/.mintty-colors')
+        if user_defined_colors_path:
+            parser.read(user_defined_colors_path)
+
+        _themes = parser
+
+    return _themes
+
+
 def set_theme(theme):
-    parser = read_string(themes)
+    parser = get_themes()
     for k, v in parser.items(theme):
         set_color(k, v)
 
@@ -146,7 +165,7 @@ def set(ctx, theme):
 
 @cli.command()
 def list():
-    parser = read_string(themes)
+    parser = get_themes()
     for section in parser.sections():
         click.echo(section)
 
