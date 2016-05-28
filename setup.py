@@ -13,7 +13,9 @@ def read(filename):
 setup(
     name='mintty-colors',
     version=VERSION,
+    url='https://github.com/joakimkarlsson/mintty-colors',
     author='Joakim Karlsson',
+    author_email='joakim@jkarlsson.com',
     description='Switch color themes on the fly in cygwin\'s mintty terminal',
     long_description=read('README.rst'),
     license='MIT',
