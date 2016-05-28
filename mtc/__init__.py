@@ -250,7 +250,7 @@ def set(ctx, theme):
 @cli.command()
 def list():
     parser = get_themes()
-    for section in parser.sections():
+    for section in sorted(parser.sections()):
         click.echo(section)
 
 
