@@ -1,14 +1,25 @@
 #!/usr/bin/env python
-from setuptools import setup, find_packages
+from setuptools import setup
+import os.path as op
 
 
 VERSION = '0.0.1'
 
+
+def read(filename):
+    return open(op.join(op.dirname(__file__), filename)).read()
+
+
 setup(
     name='mintty-colors',
     version=VERSION,
+    author='Joakim Karlsson',
+    description='Switch color themes on the fly in cygwin\'s mintty terminal',
+    long_description=read('README.rst'),
+    license='MIT',
+    keywords='cyginw mintty colors',
 
-    packages=find_packages(),
+    py_modules=['mtc'],
 
     install_requires=[
         'click>=6.6',
