@@ -1,4 +1,5 @@
 import os
+import sys
 import click
 
 try:
@@ -133,7 +134,11 @@ def cli():
 @cli.command()
 @click.argument('theme')
 def set(theme):
-    set_theme(theme)
+    try:
+        set_theme(theme)
+    except ConfigParser.NoSectionError:
+        click.echo('Don\'t know the theme {}.'.format(theme))
+        sys.exit(1)
 
 
 if __name__ == '__main__':
