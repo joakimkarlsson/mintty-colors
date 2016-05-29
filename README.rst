@@ -10,11 +10,11 @@ A command line tool for switching colors on the fly in cygwin's mintty terminal.
 Installation
 ************
 
-You know this::
+:code:`mintty-colors` is a python package that is easiest to install using pip. It should work with both python 2 and python 2::
 
     pip install mintty-colors
 
-This installs a command-line tool - `mtc` that let's you control the colors of your mintty session.
+This installs a command-line tool - :code:`mtc` that let's you control the colors of your mintty session.
 
 
 *****
